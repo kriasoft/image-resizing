@@ -1,0 +1,28 @@
+# Distributables
+package.tgz
+
+# Dependencies
+node_modules/
+
+# Yarn
+# https://yarnpkg.com/advanced/qa/#which-files-should-be-gitignored
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+# Logs
+yarn-debug.log*
+yarn-error.log
+
+# Testing
+/coverage
+
+# Cache
+/.cache
+.eslintcache
+
+# macOS
+.DS_Store
