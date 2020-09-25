@@ -6,6 +6,8 @@ export declare type Transform = {
     width?: number;
     height?: number;
     crop?: "crop" | "fill";
+    x?: number;
+    y?: number;
 };
 export declare type Param<T> = {
     readonly key: string;
