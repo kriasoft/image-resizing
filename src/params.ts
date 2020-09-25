@@ -26,4 +26,16 @@ export const params: Params = {
     parse: (value) => value,
     validate: (value) => ["crop", "fill"].includes(value),
   } as Param<"crop" | "fill">,
+
+  x: {
+    key: "x",
+    parse: (value) => parseInt(value, 10),
+    validate: (value) => !isNaN(value),
+  } as Param<number>,
+
+  y: {
+    key: "y",
+    parse: (value) => parseInt(value, 10),
+    validate: (value) => !isNaN(value),
+  } as Param<number>,
 };

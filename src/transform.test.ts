@@ -96,3 +96,20 @@ it("h_60.png", (done) => {
     },
   );
 });
+
+it("x_260,y_160,w_120,h_80,c_crop.png", (done) => {
+  const transforms: Transform[] = [
+    { x: 260, y: 160, width: 120, height: 80, crop: "crop" },
+  ];
+  transform(fs.createReadStream("test.jpg"), transforms).toBuffer(
+    "png",
+    (err, image) => {
+      if (err) {
+        done(err);
+      } else {
+        expect(image).toMatchImageSnapshot();
+        done();
+      }
+    },
+  );
+});

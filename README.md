@@ -1,4 +1,7 @@
-# Image Resizing
+# Cloud Image Resizing &middot; [![npm package][npm-badge]][npm]
+
+[npm-badge]: https://img.shields.io/npm/v/image-resizing.svg?style=flat-square
+[npm]: https://www.npmjs.org/package/image-resizing
 
 Node.js backend (middleware) for image manipulation needs (transform, resize,
 optimize) that can be hosted in a serverless environment such as Google Cloud
@@ -7,6 +10,10 @@ Functions.
 ## Getting Started
 
 Create a Google Cloud Function project that exports image transformation HTTP handler:
+
+```
+$ npm install image-resizing --save
+```
 
 ```js
 const { createHandler } = require("image-resizing");
@@ -24,7 +31,9 @@ module.exports.img = createHandler({
 Deploy it to GCP using Node.js v12+ runtime and configure a CDN on top of it.
 
 ```
-https://example.com/w_80,h_60,c_fill/example.jpg
+https://example.com/image.jpg - original image
+https://example.com/w_80,h_60,c_fill/image.jpg - resized image (80x60)
+https://example.com/x_10,y_10,w_80,h_60,c_crop/image.jpg - cropped image (80x60 at 10,10 offset)
 ```
 
 ## References
@@ -36,7 +45,7 @@ https://example.com/w_80,h_60,c_fill/example.jpg
 ## Contributing
 
 Contributions of any kind are welcome! If you're unsure about something or need
-directions, don't hesitate to get in touch on[Discord](https://discord.com/invite/bSsv7XM).
+directions, don't hesitate to get in touch on [Discord](https://discord.com/invite/bSsv7XM).
 
 ## License
 

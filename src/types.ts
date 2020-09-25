@@ -8,6 +8,8 @@ export type Transform = {
   width?: number;
   height?: number;
   crop?: "crop" | "fill";
+  x?: number;
+  y?: number;
 };
 
 export type Param<T> = {

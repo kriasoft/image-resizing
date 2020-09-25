@@ -1,6 +1,6 @@
 {
   "name": "image-resizing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node.js backend (middleware) for image manipulation needs (transform, resize, optimize).",
   "keywords": [
     "cloud functions",

@@ -77,3 +77,25 @@ it("/img/w_80,h_60,c_fill/w_60,h_40/example.jpg", () => {
     }
   `);
 });
+
+it("/img/x_10,y_5,w_80,h_60,c_crop/example.jpg", () => {
+  const result = parseUrlPath(
+    "/img/x_10,y_5,w_80,h_60,c_crop/example.jpg",
+    params,
+  );
+  expect(result).toMatchInlineSnapshot(`
+    Object {
+      "source": "img/example.jpg",
+      "target": "img/example__x_10,y_5,w_80,h_60,c_crop.jpg",
+      "transforms": Array [
+        Object {
+          "crop": "crop",
+          "height": 60,
+          "width": 80,
+          "x": 10,
+          "y": 5,
+        },
+      ],
+    }
+  `);
+});

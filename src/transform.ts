@@ -18,7 +18,13 @@ export function transform(
 
   transforms.forEach((params) => {
     if (params.width && params.height) {
-      if (params.crop === "fill") {
+      if (
+        params.y !== undefined &&
+        params.y !== undefined &&
+        params.crop === "crop"
+      ) {
+        state = state.crop(params.width, params.height, params.x, params.y);
+      } else if (params.crop === "fill") {
         state = state
           .resize(params.width, params.height, "^")
           .gravity("Center")
