@@ -30,11 +30,36 @@ module.exports.img = createHandler({
 
 Deploy it to GCP using Node.js v12+ runtime and configure a CDN on top of it.
 
-```
-https://example.com/image.jpg - original image
-https://example.com/w_80,h_60,c_fill/image.jpg - resized image (80x60)
-https://example.com/x_10,y_10,w_80,h_60,c_crop/image.jpg - cropped image (80x60 at 10,10 offset)
-```
+## Fixed coordinates cropping
+
+You can specify a region of the original image to crop by giving the `x` and `y`
+coordinates of the top left corner of the region together with the `width` and
+`height` of the region. You can also use percentage based numbers instead of the
+exact coordinates for `x`, `y`, `w` and `h` (e.g., 0.5 for 50%) . Use this
+method when you know beforehand what the correct absolute cropping coordinates
+are, as in when your users manually select the region to crop out of the
+original image.
+
+For example, the following image shows many white sheep and one brown sheep.
+
+<p align="center">
+  <img src="https://i.kriasoft.com/brown_sheep.jpg" />
+  <code><a href="https://i.kriasoft.com/brown_sheep.jpg">https://i.kriasoft.com/brown_sheep.jpg</a></code>
+</p>
+
+To manipulate the picture so that only the brown sheep is visible, the image is cropped to a 300x200 region starting at the coordinate x = 355 and y = 410:
+
+<p align="center">
+  <img src="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/brown_sheep.jpg" />
+  <code><a href="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/brown_sheep.jpg">https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/brown_sheep.jpg</a></code>
+</p>
+
+The image can be further manipulated with chained transformations. For example, the 300x200 cropped version above, also scaled down to 150x100:
+
+<p align="center">
+  <img src="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/w_150,h_100,c_scale/brown_sheep.jpg" />
+  <code><a href="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/w_150,h_100,c_scale/brown_sheep.jpg">https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/w_150,h_100,c_scale/brown_sheep.jpg</a></code>
+</p>
 
 ## References
 
@@ -49,8 +74,9 @@ directions, don't hesitate to get in touch on [Discord](https://discord.com/invi
 
 ## License
 
-Copyright © 2020-present Kriasoft. This source code is licensed under the MIT license found in the
-[LICENSE](https://github.com/kriasoft/image-resizing/blob/main/LICENSE) file.
+Copyright © 2020-present Kriasoft. This source code is licensed under the MIT
+license found in the [LICENSE](https://github.com/kriasoft/image-resizing/blob/main/LICENSE)
+file. Sample images and transformation options are borrowed from Cloudinary.
 
 ---
 

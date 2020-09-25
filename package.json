@@ -19,7 +19,6 @@
     "transform"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/kriasoft/image-resizing/blob/main/image-resizing",
   "bugs": "https://github.com/kriasoft/image-resizing/issues",
   "repository": "github:kriasoft/image-resizing",
   "type": "commonjs",
