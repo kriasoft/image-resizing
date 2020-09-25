@@ -30,6 +30,35 @@ module.exports.img = createHandler({
 
 Deploy it to GCP using Node.js v12+ runtime and configure a CDN on top of it.
 
+## Resizing and cropping images
+
+You can resize and crop images in order to match the graphic design of your web
+site or mobile application. Whether images are uploaded in your server-side code
+or by your users, the original hi-res images are stored in the cloud for further
+processing and management. You can then dynamically create multiple resized,
+cropped and manipulated images on-the-fly and deliver them via dynamic URLs.
+
+To change the size of a image, use the `width` and `height` parameters (`w` and
+`h` in URLs) to assign new values. You can resize the image by using both the
+width and height parameters or with only one of them: the other dimension is
+automatically updated to maintain the aspect ratio.
+
+Examples of resizing the uploaded jpg image named `sample`:
+
+1. Resizing the height to 200 pixels, maintaining the aspect ratio:
+
+<p align="center">
+  <img src="https://i.kriasoft.com/h_200/sample.jpg" /><br>
+  <code><a href="https://i.kriasoft.com/h_200/sample.jpg">https://i.kriasoft.com/h_200/sample.jpg</a></code>
+</p>
+
+2. Resizing to a width of 200 pixels and a height of 100 pixels:
+
+<p align="center">
+  <img src="https://i.kriasoft.com/w_200,h_100/sample.jpg" /><br>
+  <code><a href="https://i.kriasoft.com/w_200,h_100/sample.jpg">https://i.kriasoft.com/w_200,h_100/sample.jpg</a></code>
+</p>
+
 ## Fixed coordinates cropping
 
 You can specify a region of the original image to crop by giving the `x` and `y`
@@ -43,21 +72,21 @@ original image.
 For example, the following image shows many white sheep and one brown sheep.
 
 <p align="center">
-  <img src="https://i.kriasoft.com/brown_sheep.jpg" />
+  <img src="https://i.kriasoft.com/brown_sheep.jpg" /><br>
   <code><a href="https://i.kriasoft.com/brown_sheep.jpg">https://i.kriasoft.com/brown_sheep.jpg</a></code>
 </p>
 
 To manipulate the picture so that only the brown sheep is visible, the image is cropped to a 300x200 region starting at the coordinate x = 355 and y = 410:
 
 <p align="center">
-  <img src="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/brown_sheep.jpg" />
+  <img src="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/brown_sheep.jpg" /><br>
   <code><a href="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/brown_sheep.jpg">https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/brown_sheep.jpg</a></code>
 </p>
 
 The image can be further manipulated with chained transformations. For example, the 300x200 cropped version above, also scaled down to 150x100:
 
 <p align="center">
-  <img src="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/w_150,h_100,c_scale/brown_sheep.jpg" />
+  <img src="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/w_150,h_100,c_scale/brown_sheep.jpg" /><br>
   <code><a href="https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/w_150,h_100,c_scale/brown_sheep.jpg">https://i.kriasoft.com/x_355,y_410,w_300,h_200,c_crop/w_150,h_100,c_scale/brown_sheep.jpg</a></code>
 </p>
 
