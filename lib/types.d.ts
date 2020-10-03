@@ -20,7 +20,9 @@ export declare type Params = {
 export declare type Options = {
     readonly storage?: StorageOptions;
     readonly sourceBucket: string;
+    readonly sourcePrefix?: string;
     readonly cacheBucket: string;
+    readonly cachePrefix?: string;
     readonly params?: Params;
 };
 export declare type ParsedOutput = Readonly<{

@@ -17,6 +17,9 @@ export function createHandler(options: Options): RequestHandler {
   const sourceBucket = storage.bucket(options.sourceBucket);
   const cacheBucket = storage.bucket(options.cacheBucket);
 
+  const sourcePrefix = options.sourcePathPrefix ?? "";
+  const cachePrefix = options.cachePathPrefix ?? "";
+
   const cacheControl = "public, max-age=31560000, immutable";
   const cacheControlInitial = "public, max-age=31560000, s-maxage=0, immutable";
 
@@ -40,9 +43,13 @@ export function createHandler(options: Options): RequestHandler {
     const path = decodeURIComponent(req.path);
     const { source, target, transforms } = parseUrlPath(path, mergedParams);
 
+    const targetPath = cachePrefix + target;
+
+    const sourcePath = sourcePrefix + source;
+
     const sourceFile = target
-      ? cacheBucket.file(target)
-      : sourceBucket.file(source);
+      ? cacheBucket.file(targetPath)
+      : sourceBucket.file(sourcePath);
 
     sourceFile
       .createReadStream({ decompress: false })
@@ -56,7 +63,7 @@ export function createHandler(options: Options): RequestHandler {
         } else if (x.statusCode === 404) {
           this.end();
           sourceBucket
-            .file(source)
+            .file(sourcePath)
             .createReadStream()
             .on("error", noop)
             .on("response", function (this: NodeJS.ReadStream, x) {
@@ -67,7 +74,7 @@ export function createHandler(options: Options): RequestHandler {
                     handleError(res, err);
                   } else {
                     const targetFile = cacheBucket
-                      .file(target as string)
+                      .file(targetPath as string)
                       .createWriteStream({
                         contentType: x.headers["content-type"],
                       })
