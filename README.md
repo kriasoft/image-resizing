@@ -21,11 +21,11 @@ const { createHandler } = require("image-resizing");
 module.exports.img = createHandler({
   // Where the source images are located, including any sub-folders.
   // E.g. gs://s.example.com/source/image.jpg
-  sourceBucket: "s.example.com/source",
+  sourceBucketPath: "s.example.com/source",
 
   // Where the transformed images needs to be stored, including any sub-folders.
   // E.g. gs://c.example.com/cache/image__w_80,h_60.jpg
-  cacheBucket: "c.example.com/cache",
+  cacheBucketPath: "c.example.com/cache",
 });
 ```
 

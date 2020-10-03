@@ -16,10 +16,12 @@ export function createHandler(options: Options): RequestHandler {
   const storage = new Storage(options.storage);
 
   const [sourceBucketPath, sourcePathPrefix] = parseBucket(
-    options.sourceBucket,
+    options.sourceBucketPath,
   );
 
-  const [cacheBucketPath, cachePathPrefix] = parseBucket(options.cacheBucket);
+  const [cacheBucketPath, cachePathPrefix] = parseBucket(
+    options.cacheBucketPath,
+  );
 
   const sourceBucket = storage.bucket(sourceBucketPath);
   const cacheBucket = storage.bucket(cacheBucketPath);
