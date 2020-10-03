@@ -17,8 +17,8 @@ export function createHandler(options: Options): RequestHandler {
   const sourceBucket = storage.bucket(options.sourceBucket);
   const cacheBucket = storage.bucket(options.cacheBucket);
 
-  const sourcePrefix = options.sourcePathPrefix ?? "";
-  const cachePrefix = options.cachePathPrefix ?? "";
+  const sourcePathPrefix = options.sourcePathPrefix ?? "";
+  const cachePathPrefix = options.cachePathPrefix ?? "";
 
   const cacheControl = "public, max-age=31560000, immutable";
   const cacheControlInitial = "public, max-age=31560000, s-maxage=0, immutable";
@@ -43,9 +43,9 @@ export function createHandler(options: Options): RequestHandler {
     const path = decodeURIComponent(req.path);
     const { source, target, transforms } = parseUrlPath(path, mergedParams);
 
-    const targetPath = cachePrefix + target;
+    const targetPath = cachePathPrefix + target;
 
-    const sourcePath = sourcePrefix + source;
+    const sourcePath = sourcePathPrefix + source;
 
     const sourceFile = target
       ? cacheBucket.file(targetPath)
