@@ -19,19 +19,13 @@ $ npm install image-resizing --save
 const { createHandler } = require("image-resizing");
 
 module.exports.img = createHandler({
-  // Where the source images are located.
-  // E.g. gs://s.example.com/image.jpg
-  sourceBucket: "s.example.com",
-  // If using sub-folder within source bucket, add this param
+  // Where the source images are located, including any sub-folders.
   // E.g. gs://s.example.com/source/image.jpg
-  //sourcePathPrefix: "source/",
+  sourceBucket: "s.example.com/source",
 
-  // Where the transformed images needs to be stored.
-  // E.g. gs://c.example.com/image__w_80,h_60.jpg
-  cacheBucket: "c.example.com",
-  // If using sub-folder within cache bucket, add this param
+  // Where the transformed images needs to be stored, including any sub-folders.
   // E.g. gs://c.example.com/cache/image__w_80,h_60.jpg
-  //cachePathPrefix: "cache/",
+  cacheBucket: "c.example.com/cache",
 });
 ```
 

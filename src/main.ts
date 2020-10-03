@@ -6,7 +6,7 @@ import { RequestHandler } from "express";
 import { Storage } from "@google-cloud/storage";
 
 import { params } from "./params";
-import { parseUrlPath } from "./parse";
+import { parseUrlPath, parseBucket } from "./parse";
 import { transform } from "./transform";
 import { handleError, noop } from "./utils";
 import type { Options, Params } from "./types";
@@ -14,11 +14,15 @@ export type { Options, Params } from "./types";
 
 export function createHandler(options: Options): RequestHandler {
   const storage = new Storage(options.storage);
-  const sourceBucket = storage.bucket(options.sourceBucket);
-  const cacheBucket = storage.bucket(options.cacheBucket);
 
-  const sourcePathPrefix = options.sourcePathPrefix ?? "";
-  const cachePathPrefix = options.cachePathPrefix ?? "";
+  const [sourceBucketPath, sourcePathPrefix] = parseBucket(
+    options.sourceBucket,
+  );
+
+  const [cacheBucketPath, cachePathPrefix] = parseBucket(options.cacheBucket);
+
+  const sourceBucket = storage.bucket(sourceBucketPath);
+  const cacheBucket = storage.bucket(cacheBucketPath);
 
   const cacheControl = "public, max-age=31560000, immutable";
   const cacheControlInitial = "public, max-age=31560000, s-maxage=0, immutable";
