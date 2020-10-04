@@ -24,8 +24,8 @@ export type Params = {
 
 export type Options = {
   readonly storage?: StorageOptions;
-  readonly sourceBucketPath: string;
-  readonly cacheBucketPath: string;
+  readonly sourceBucket: string;
+  readonly cacheBucket: string;
   readonly params?: Params;
 };
 

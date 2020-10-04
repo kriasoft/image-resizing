@@ -13,18 +13,12 @@ import type { Options, Params } from "./types";
 export type { Options, Params } from "./types";
 
 export function createHandler(options: Options): RequestHandler {
+  const [sourceBucketName, sourcePrefix] = parseBucket(options.sourceBucket);
+  const [cacheBucketName, cachePrefix] = parseBucket(options.cacheBucket);
+
   const storage = new Storage(options.storage);
-
-  const [sourceBucketPath, sourcePathPrefix] = parseBucket(
-    options.sourceBucketPath,
-  );
-
-  const [cacheBucketPath, cachePathPrefix] = parseBucket(
-    options.cacheBucketPath,
-  );
-
-  const sourceBucket = storage.bucket(sourceBucketPath);
-  const cacheBucket = storage.bucket(cacheBucketPath);
+  const sourceBucket = storage.bucket(sourceBucketName);
+  const cacheBucket = storage.bucket(cacheBucketName);
 
   const cacheControl = "public, max-age=31560000, immutable";
   const cacheControlInitial = "public, max-age=31560000, s-maxage=0, immutable";
@@ -49,13 +43,9 @@ export function createHandler(options: Options): RequestHandler {
     const path = decodeURIComponent(req.path);
     const { source, target, transforms } = parseUrlPath(path, mergedParams);
 
-    const targetPath = cachePathPrefix + target;
-
-    const sourcePath = sourcePathPrefix + source;
-
     const sourceFile = target
-      ? cacheBucket.file(targetPath)
-      : sourceBucket.file(sourcePath);
+      ? cacheBucket.file(`${cachePrefix}${target}`)
+      : sourceBucket.file(`${sourcePrefix}${source}`);
 
     sourceFile
       .createReadStream({ decompress: false })
@@ -69,7 +59,7 @@ export function createHandler(options: Options): RequestHandler {
         } else if (x.statusCode === 404) {
           this.end();
           sourceBucket
-            .file(sourcePath)
+            .file(`${sourcePrefix}${source}`)
             .createReadStream()
             .on("error", noop)
             .on("response", function (this: NodeJS.ReadStream, x) {
@@ -80,7 +70,7 @@ export function createHandler(options: Options): RequestHandler {
                     handleError(res, err);
                   } else {
                     const targetFile = cacheBucket
-                      .file(targetPath as string)
+                      .file(`${cachePrefix}${target}`)
                       .createWriteStream({
                         contentType: x.headers["content-type"],
                       })

@@ -98,14 +98,15 @@ export function parseUrlPath(
  *   parseBucket("gs://s.example.com/uploads/") => ["gs://s.example.com", "uploads/"]
  */
 export function parseBucket(value: string): [bucket: string, prefix: string] {
-  const protocol = ((i: number) =>
-    i === -1 ? "gs:" : value.substring(0, i + 1))(value.indexOf("://"));
+  const protocol = ((i) => (i === -1 ? "gs:" : value.substring(0, i + 1)))(
+    value.indexOf("://"),
+  );
 
   if (protocol !== "gs:") {
     throw new Error("Only Google Storage buckets are supported at the moment.");
   }
 
-  return ((i: number): [bucket: string, prefix: string] => {
+  return ((i): [bucket: string, prefix: string] => {
     return i === -1
       ? [value, ""]
       : [

@@ -3,7 +3,7 @@
  */
 
 import { params } from "./params";
-import { parseUrlPath } from "./parse";
+import { parseUrlPath, parseBucket } from "./parse";
 
 it("/w_60,h_80/example.jpg", () => {
   const result = parseUrlPath("/w_60,h_80/example.jpg", params);
@@ -98,4 +98,60 @@ it("/img/x_10,y_5,w_80,h_60,c_crop/example.jpg", () => {
       ],
     }
   `);
+});
+
+it('parseBucket("gs://s.example.com")', () => {
+  const result = parseBucket("gs://s.example.com");
+  expect(result).toMatchInlineSnapshot(`
+    Array [
+      "gs://s.example.com",
+      "",
+    ]
+  `);
+});
+
+it('parseBucket("gs://s.example.com/")', () => {
+  const result = parseBucket("gs://s.example.com/");
+  expect(result).toMatchInlineSnapshot(`
+    Array [
+      "gs://s.example.com",
+      "",
+    ]
+  `);
+});
+
+it('parseBucket("gs://s.example.com/uploads")', () => {
+  const result = parseBucket("gs://s.example.com/uploads");
+  expect(result).toMatchInlineSnapshot(`
+    Array [
+      "gs://s.example.com",
+      "uploads/",
+    ]
+  `);
+});
+
+it('parseBucket("gs://s.example.com/uploads/")', () => {
+  const result = parseBucket("gs://s.example.com/uploads/");
+  expect(result).toMatchInlineSnapshot(`
+    Array [
+      "gs://s.example.com",
+      "uploads/",
+    ]
+  `);
+});
+
+it('parseBucket("s.example.com/uploads/")', () => {
+  const result = parseBucket("s.example.com/uploads/");
+  expect(result).toMatchInlineSnapshot(`
+    Array [
+      "s.example.com",
+      "uploads/",
+    ]
+  `);
+});
+
+it('parseBucket("err://s.example.com/")', () => {
+  expect(() => parseBucket("err://s.example.com/")).toThrowError(
+    "Only Google Storage buckets are supported at the moment.",
+  );
 });
