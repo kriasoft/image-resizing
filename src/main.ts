@@ -6,16 +6,19 @@ import { RequestHandler } from "express";
 import { Storage } from "@google-cloud/storage";
 
 import { params } from "./params";
-import { parseUrlPath } from "./parse";
+import { parseUrlPath, parseBucket } from "./parse";
 import { transform } from "./transform";
 import { handleError, noop } from "./utils";
 import type { Options, Params } from "./types";
 export type { Options, Params } from "./types";
 
 export function createHandler(options: Options): RequestHandler {
+  const [sourceBucketName, sourcePrefix] = parseBucket(options.sourceBucket);
+  const [cacheBucketName, cachePrefix] = parseBucket(options.cacheBucket);
+
   const storage = new Storage(options.storage);
-  const sourceBucket = storage.bucket(options.sourceBucket);
-  const cacheBucket = storage.bucket(options.cacheBucket);
+  const sourceBucket = storage.bucket(sourceBucketName);
+  const cacheBucket = storage.bucket(cacheBucketName);
 
   const cacheControl = "public, max-age=31560000, immutable";
   const cacheControlInitial = "public, max-age=31560000, s-maxage=0, immutable";
@@ -41,8 +44,8 @@ export function createHandler(options: Options): RequestHandler {
     const { source, target, transforms } = parseUrlPath(path, mergedParams);
 
     const sourceFile = target
-      ? cacheBucket.file(target)
-      : sourceBucket.file(source);
+      ? cacheBucket.file(`${cachePrefix}${target}`)
+      : sourceBucket.file(`${sourcePrefix}${source}`);
 
     sourceFile
       .createReadStream({ decompress: false })
@@ -56,7 +59,7 @@ export function createHandler(options: Options): RequestHandler {
         } else if (x.statusCode === 404) {
           this.end();
           sourceBucket
-            .file(source)
+            .file(`${sourcePrefix}${source}`)
             .createReadStream()
             .on("error", noop)
             .on("response", function (this: NodeJS.ReadStream, x) {
@@ -67,7 +70,7 @@ export function createHandler(options: Options): RequestHandler {
                     handleError(res, err);
                   } else {
                     const targetFile = cacheBucket
-                      .file(target as string)
+                      .file(`${cachePrefix}${target}`)
                       .createWriteStream({
                         contentType: x.headers["content-type"],
                       })

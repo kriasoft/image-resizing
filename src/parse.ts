@@ -87,3 +87,31 @@ export function parseUrlPath(
     transforms,
   };
 }
+
+/**
+ * Extracts folder name (prefix) from the bucket name.
+ *
+ * @example
+ *   parseBucket("gs://s.example.com")          => ["gs://s.example.com", ""]
+ *   parseBucket("gs://s.example.com/")         => ["gs://s.example.com", ""]
+ *   parseBucket("gs://s.example.com/uploads")  => ["gs://s.example.com", "uploads/"]
+ *   parseBucket("gs://s.example.com/uploads/") => ["gs://s.example.com", "uploads/"]
+ */
+export function parseBucket(value: string): [bucket: string, prefix: string] {
+  const protocol = ((i) => (i === -1 ? "gs:" : value.substring(0, i + 1)))(
+    value.indexOf("://"),
+  );
+
+  if (protocol !== "gs:") {
+    throw new Error("Only Google Storage buckets are supported at the moment.");
+  }
+
+  return ((i): [bucket: string, prefix: string] => {
+    return i === -1
+      ? [value, ""]
+      : [
+          value.substring(0, i),
+          ((x) => x && (x.endsWith("/") ? x : `${x}/`))(value.substring(i + 1)),
+        ];
+  })(value.indexOf("/", protocol ? protocol.length + 2 : 0));
+}
