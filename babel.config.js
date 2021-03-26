@@ -11,7 +11,10 @@
 module.exports = function config(api) {
   return {
     presets: ["@babel/preset-env"],
-    plugins: ["@babel/plugin-proposal-object-rest-spread"],
+    plugins: [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread",
+    ],
     ignore: api.env("test") ? [] : ["**/__tests__/**", "**/*.test.ts"],
     sourceMaps: api.env("production"),
     overrides: [

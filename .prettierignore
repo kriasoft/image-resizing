@@ -1,3 +1,4 @@
 /.yarn
 /.pnp.*
+/lib
 tsconfig.json

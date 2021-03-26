@@ -23,9 +23,24 @@ export type Params = {
 };
 
 export type Options = {
+  /**
+   * Cloud storage options.
+   */
   readonly storage?: StorageOptions;
+
+  /**
+   * Storage bucket where the original (source) images can be found.
+   */
   readonly sourceBucket: string;
+
+  /**
+   * Storage bucket for resized (cached) images.
+   */
   readonly cacheBucket: string;
+
+  /**
+   * Image transformation parameters.
+   */
   readonly params?: Params;
 };
 

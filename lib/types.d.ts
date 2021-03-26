@@ -18,9 +18,21 @@ export declare type Params = {
     [K in keyof Transform]: Param<NonNullable<Transform[K]>>;
 };
 export declare type Options = {
+    /**
+     * Cloud storage options.
+     */
     readonly storage?: StorageOptions;
+    /**
+     * Storage bucket where the original (source) images can be found.
+     */
     readonly sourceBucket: string;
+    /**
+     * Storage bucket for resized (cached) images.
+     */
     readonly cacheBucket: string;
+    /**
+     * Image transformation parameters.
+     */
     readonly params?: Params;
 };
 export declare type ParsedOutput = Readonly<{

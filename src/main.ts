@@ -20,8 +20,8 @@ export function createHandler(options: Options): RequestHandler {
   const sourceBucket = storage.bucket(sourceBucketName);
   const cacheBucket = storage.bucket(cacheBucketName);
 
-  const cacheControl = "public, max-age=31560000, immutable";
-  const cacheControlInitial = "public, max-age=31560000, s-maxage=0, immutable";
+  const cacheControl = "public, max-age=31536000, immutable";
+  const cacheControlInitial = "public, max-age=31536000, s-maxage=0, immutable";
 
   const mergedParams = options.params
     ? {
